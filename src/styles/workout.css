@@ -12,3 +12,28 @@ img{
     object-fit: cover;
 }
 
+.filter-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.filter-btn {
+  border: none;
+  padding: 8px 18px;
+  border-radius: 25px;
+  background: #eee;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.filter-btn:hover {
+  background: #ddd;
+}
+
+.filter-btn.active {
+  background: #ff5a3d;
+  color: white;
+}
+
