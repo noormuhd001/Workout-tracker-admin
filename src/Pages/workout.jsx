@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Navbar from "./layout/navbar";
 import "../styles/workout.css";
+import { HiTrash } from "react-icons/hi";
+import Swal from "sweetalert2";
 
 export default function Workouts() {
   const [workouts, setWorkouts] = useState([]);
@@ -40,28 +42,48 @@ export default function Workouts() {
     data.append("image", formData.image);
     data.append("kcal_per_minute", formData.kcal_per_minute);
 
-    // const res = await fetch("http://127.0.0.1:8000/api/store-workout", {
-    //   method: "POST",
-    //   body: data,
-    // });
-
-    // const result = await res.json();
-
-    // const text = await res.text();
-    // console.log(text, result);
-
     const res = await fetch("http://127.0.0.1:8000/api/store-workout", {
       method: "POST",
       body: data,
     });
 
-    console.log("Status:", res.status);
-
-    const text = await res.text();
-    console.log(text);
+    const result = await res.json();
+    Swal.fire({
+      icon: "success",
+      title: "Success",
+      text: result.text,
+      timer: 2000,
+      showConfirmButton: false,
+    });
     setShowModal(false);
   };
 
+  const deleteWorkout = async (id) => {
+    const confirm = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to recover this workout!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!confirm.isConfirmed) return;
+
+    const res = await fetch(`http://127.0.0.1:8000/api/destroy-workout/${id}`, {
+      method: "POST",
+    });
+
+    const result = await res.json();
+
+    Swal.fire({
+      icon: "success",
+      title: "Success",
+      text: result.text,
+      timer: 2000,
+      showConfirmButton: false,
+    });
+  };
   const bodyParts = [
     "All",
     ...new Set(workouts.map((workout) => workout.body_part)),
@@ -111,6 +133,13 @@ export default function Workouts() {
               <h3>{workout.workout_name}</h3>
               <p>{workout.body_part}</p>
               <p className="kcal">{workout.kcal_per_minute} kcal/min</p>
+              <button
+                className="btn btn-danger"
+                onClick={() => deleteWorkout(workout.id)}
+              >
+                Delete
+                <HiTrash />
+              </button>
             </div>
           ))}
         </div>
