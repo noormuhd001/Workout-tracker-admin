@@ -12,6 +12,10 @@ img{
     object-fit: cover;
 }
 
+.kcal{
+    color: green;
+}
+
 .filter-container {
   display: flex;
   gap: 10px;
