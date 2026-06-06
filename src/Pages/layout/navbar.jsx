@@ -7,10 +7,10 @@ export default function Navbar() {
       <div className="logo">Workout Tracker</div>
 
       <div className="nav-links">
-        
         <NavLink to="/">Dashboard</NavLink>
         {/* <NavLink to="/posts">Posts</NavLink> */}
         <NavLink to="/workouts">Workouts</NavLink>
+        <NavLink to="/users">User</NavLink>
       </div>
     </nav>
   );
